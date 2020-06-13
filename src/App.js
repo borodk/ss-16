@@ -1,24 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
+import * as Tone from 'tone';
+import Button from './Components/Button';
 import './App.css';
+import StepSequencer from './Components/StepSequencer';
+
+const play = () => {
+  const synth = new Tone.Synth().toMaster();
+  synth.triggerAttackRelease('C4', '8n');
+}
+
+const stop = () => {
+  alert('stop');
+}
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>step sequencer</h1>
+      <Button buttonText="play" handleClick={play}/>
+      <Button buttonText="stop" handleClick={stop}/>
+      <StepSequencer/>
     </div>
   );
 }
