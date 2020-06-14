@@ -1,7 +1,15 @@
+html {
+  background-color: whitesmoke;
+}
+
 .App {
   text-align: center;
   max-width: 75%;
   margin: 0 auto;
+}
+
+#controls {
+  margin: 20px 0;
 }
 
 #step-sequencer {
@@ -23,7 +31,7 @@
 }
 
 .column.highlight {
-  background-color: gray;
+  background-color: lightsalmon;
 }
 
 .column.highlight .row {
@@ -35,14 +43,14 @@
 }
 
 .column.highlight .row.filled {
-  background-color: white;
+  background-color: lightskyblue;
 }
 
 .row {
   flex: 1;
-					margin: 1px;
-					background-color: lightblue;
-					transition: background-color 0s;
+    margin: 1px;
+    background-color: lightblue;
+    transition: background-color 0s;
 }
 
 .row.filled {
