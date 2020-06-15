@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Tone from 'tone';
 import Button from './Components/Button';
+import InputWithLabel from './Components/InputWithLabel';
 import './App.css';
 import StepSequencer from './Components/StepSequencer';
 
@@ -9,11 +10,12 @@ function hasClass(element, className) {
   return (' ' + element.className + ' ').indexOf(' ' + className + ' ') > -1;
 }
 
-Tone.Transport.bpm.value = 120;
+var synth = new Tone.Synth().toMaster();
 
-//the notes
+// the notes
 var noteNames = ["F#", "E", "C#", "A"];
-var column = [];
+
+
 var columns = document.getElementsByClassName("column");
 var loop = new Tone.Sequence(function(time, col){
   for(var c in columns) {
@@ -62,10 +64,27 @@ const stop = () => {
 }
 
 function App() {
+
+  const [bpm, setBpm] = useState(120);
+  
+  const handleBpmInput = event => {
+    let value = event.target.value;
+    setBpm(value);
+    Tone.Transport.bpm.value = value;
+  };
+
   return (
     <div className="App">
       <h1>step sequencer</h1>
       <div id="controls">
+      <InputWithLabel
+          id="bpm"
+          value={bpm}
+          isFocused
+          onInputChange={handleBpmInput}
+        >
+          <strong>BPM:</strong>
+        </InputWithLabel>
         <Button buttonText="play" handleClick={play}/>
         <Button buttonText="stop" handleClick={stop}/>
       </div>
