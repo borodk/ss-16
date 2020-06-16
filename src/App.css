@@ -36,6 +36,10 @@ html {
   background-color: teal;
 }
 
+.square.filled.active {
+  background-color: white;
+}
+
 .row-label {
   float: left;
   height: 31px;

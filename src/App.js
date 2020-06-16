@@ -5,11 +5,6 @@ import './App.css';
 import StepSequencer from './Components/StepSequencer';
 import * as Tone from 'tone';
 
-
-function hasClass(element, className) {
-  return (' ' + element.className + ' ').indexOf(' ' + className + ' ') > -1;
-}
-
 function App() {
 
   const [bpm, setBpm] = useState(120);

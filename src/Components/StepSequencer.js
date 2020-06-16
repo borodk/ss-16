@@ -98,6 +98,7 @@ const StepSequencer = () => {
                 active={currentColumn === x}
                 selected={value}
                 onClick={() => setPattern({ x, y, value })}
+                id={x.toString()+'-'+y.toString() }
               />
             ))}
           </div>
