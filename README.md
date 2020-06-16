@@ -1,3 +1,7 @@
+A 16-step sequencer created with Tone.js and React.js
+
+![Alt text](screenshot.png?raw=true "16 step sequencer screenshot")
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
