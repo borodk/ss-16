@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import * as Tone from 'tone';
 import StepSequencerSquare from './StepSequencerSquare';
-import Button from './Button';
+import InputWithLabel from './InputWithLabel';
 
 const notes = [
   "C2",
@@ -29,9 +29,9 @@ const initialPattern = [
 const synth = new Tone.MonoSynth().toMaster();
 
 const StepSequencer = () => {
-  const [ playState, setPlayState ] = useState(Tone.Transport.state);
   const [ currentColumn, setColumn ] = useState(0);
   const [ pattern, updatePattern ] = useState(initialPattern);
+  const [bpm, setBpm] = useState(120);
 
   useEffect(
     () => {
@@ -57,24 +57,31 @@ const StepSequencer = () => {
     [ pattern ] // update when pattern changes
   )
 
+  // set BPM
+  const handleBpmInput = event => {
+    let value = event.target.value;
+    setBpm(value);
+    Tone.Transport.bpm.value = value;
+  };
+
   // play / stop functions
   const play = useCallback(() => {
+    console.log('play');
     Tone.Transport.toggle();
-    setPlayState(Tone.Transport.state);
   }, []);
 
   const stop = useCallback(() => {
     Tone.Transport.stop();
-    setPlayState(Tone.Transport.state);
   }, []);
 
+  // update pattern
   function setPattern({ x, y, value }) {
-    // update pattern by making a copy and inverting the value
+    // copy pattern and invert the value
     const patternCopy = [ ...pattern ];
     patternCopy[y][x] = +!value;
     updatePattern(patternCopy);
     
-    // set square color
+    // set square color to 'on' or 'off' state
     let currentSquare;
     const squares = document.getElementsByClassName('square');
     (y>0) ? currentSquare = squares[(y*16)+x] : currentSquare = squares[x];
@@ -84,6 +91,14 @@ const StepSequencer = () => {
   return (
     <>
       <div id="controls">
+        <InputWithLabel
+          id="bpm"
+          value={bpm}
+          isFocused
+          onInputChange={handleBpmInput}
+        >
+          <strong>BPM:</strong>
+        </InputWithLabel>
         <button onClick={() => play()}>Play</button>
         <button onClick={() => stop()}>Stop</button>
       </div>

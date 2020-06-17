@@ -2,11 +2,13 @@ import React from 'react';
 import * as Helpers from '../Helpers';
 
 const StepSequencerSquare = ({ active, value, onClick, id }) => {
+  
   if(document.getElementById(id)){
     let currentSquare = document.getElementById(id);
     (active && Helpers.hasClass(currentSquare, 'filled')) ? 
     currentSquare.classList.add('active') : currentSquare.classList.remove('active');
   }
+
   return (
     <div
       style={{
