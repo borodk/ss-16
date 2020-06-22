@@ -1,15 +1,38 @@
-html {
-  background-color: whitesmoke;
+html,
+body,
+#root {
+  height: 100%;
 }
 
 .App {
   text-align: center;
   max-width: 50%;
   margin: 0 auto;
+  padding-top: 20px;
+}
+
+.row-label {
+  float: left;
+  height: 31px;
+  width: 31px;
+}
+
+.theme-select {
+  margin-bottom: 10px;
 }
 
 #controls {
   margin: 20px 0;
+}
+
+#controls button {
+  margin: 0 5px;
+  padding: 5px 10px;
+}
+
+
+#controls #bpm {
+  height: 21px;
 }
 
 #controls label {
@@ -18,29 +41,97 @@ html {
 
 #step-sequencer {
   display: inline-block;
-					width: 100%;
-					height: 120px;
+  width: 100%;
+  height: 120px;
 }
 
 #container {
   width: 100%;
-					height: 100%;
-					display: flex;
+  height: 100%;
+  display: flex;
 }
 
-.square {
+#step-sequencer {
+  width: 600px;
+}
+
+/* light mode */
+html .light {
+  background-color: whitesmoke;
+}
+
+.light .square {
   background-color: lightblue;
 }
 
-.square.filled {
+.light .square.filled {
   background-color: teal;
 }
 
-.square.filled.active {
-  background-color: white;
+.light .square.filled.active {
+  background-color: mediumturquoise;
 }
 
-.row-label {
-  float: left;
-  height: 31px;
+.light #controls button {
+  background: white;
+  border: 1px solid lightseagreen;
+}
+
+.light #controls button:active,
+.light #controls button:hover {
+  background: lightcyan;
+}
+
+@keyframes glow {
+  0% {
+  /*border-color: #393;*/
+  border-color:lightpink;
+  box-shadow: 0 01 px rgba(200,0,0,.2), inset 0 0 5px rgba(200,0,0,.1), 0 1px 0 #000;
+  }	
+  100% {
+    border-color:lightcoral;
+  /*border-color: #6f6;*/
+  box-shadow: 0 0 5px rgba(200,0,0,.6), inset 0 0 5px rgba(200,0,0,.4), 0 1px 0 #000;
+  }
+}
+
+/* dark mode */
+
+html .dark {
+  background-color: black;
+  color: whitesmoke;
+}
+
+.dark .square {
+  background-color: lightgoldenrodyellow;
+}
+
+.dark .square.filled {
+  background-color: orangered;
+}
+
+.dark .square.filled.active {
+  background-color: goldenrod;
+}
+
+.dark #controls button {
+  background: white;
+  border: 1px solid lightseagreen;
+}
+
+.dark #controls button:active,
+.dark #controls button:hover {
+  background: lightcyan;
+}
+
+@keyframes glow-dark {
+  0% {
+
+  border-color:navajowhite;
+  box-shadow: 0 01px rgba(255,0,0,.2), inset 0 0 5px rgba(255,0,0,.1), 0 1px 0 #000;
+  }	
+  100% {
+    border-color:tomato;
+  box-shadow: 0 0 5px rgba(255,0,0,.6), inset 0 0 5px rgba(255,0,0,.4), 0 1px 0 #000;
+  }
 }

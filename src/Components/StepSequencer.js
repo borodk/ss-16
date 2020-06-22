@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import * as Tone from 'tone';
 import StepSequencerSquare from './StepSequencerSquare';
 import InputWithLabel from './InputWithLabel';
+import ThemeSelect from './ThemeSelect';
 
 const notes = [
   "C2",
@@ -58,11 +59,11 @@ const StepSequencer = () => {
   )
 
   // set BPM
-  const handleBpmInput = event => {
+  const handleBpmInput = useCallback((event) => {
     let value = event.target.value;
     setBpm(value);
     Tone.Transport.bpm.value = value;
-  };
+  }, []);
 
   // play / stop functions
   const play = useCallback(() => {
@@ -91,6 +92,7 @@ const StepSequencer = () => {
   return (
     <>
       <div id="controls">
+        <ThemeSelect/>
         <InputWithLabel
           id="bpm"
           value={bpm}
@@ -102,7 +104,7 @@ const StepSequencer = () => {
         <button onClick={() => play()}>Play</button>
         <button onClick={() => stop()}>Stop</button>
       </div>
-      <div>
+      <div id="step-sequencer">
         {pattern.map((row, y) => (
           <>
           <label class="row-label">{notes[y]}</label>
