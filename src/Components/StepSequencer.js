@@ -29,10 +29,13 @@ const initialPattern = [
 // create new synth instrument
 const synth = new Tone.MonoSynth().toMaster();
 
+let distortionEffect = new Tone.Distortion(1).toMaster();
+
 const StepSequencer = () => {
-  const [ currentColumn, setColumn ] = useState(0);
-  const [ pattern, updatePattern ] = useState(initialPattern);
+  const [currentColumn, setColumn] = useState(0);
+  const [pattern, updatePattern] = useState(initialPattern);
   const [bpm, setBpm] = useState(120);
+  const [distortion, setDistortion] = useState(false);
 
   useEffect(
     () => {
@@ -75,6 +78,16 @@ const StepSequencer = () => {
     Tone.Transport.stop();
   }, []);
 
+  // distortion on / off
+  function handleDistorion() {
+    setDistortion(!distortion);
+    if(!distortion){
+      synth.connect(distortionEffect);
+    } else {
+      synth.disconnect(distortionEffect);
+    }
+  }
+
   // update pattern
   function setPattern({ x, y, value }) {
     // copy pattern and invert the value
@@ -103,6 +116,7 @@ const StepSequencer = () => {
         </InputWithLabel>
         <button onClick={() => play()}>Play</button>
         <button onClick={() => stop()}>Stop</button>
+        <label for='distortion-check-box'><input type="checkbox" checked={distortion} onChange={handleDistorion}></input>Distortion</label>
       </div>
       <div id="step-sequencer">
         {pattern.map((row, y) => (
