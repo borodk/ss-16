@@ -27,15 +27,17 @@ const initialPattern = [
 ];
 
 // create new synth instrument
-const synth = new Tone.MonoSynth().toMaster();
+const synth = new Tone.PolySynth().toMaster();
 
 let distortionEffect = new Tone.Distortion(1).toMaster();
+let pingPongDelayEffect = new Tone.PingPongDelay("4n", 0.2).toMaster();
 
 const StepSequencer = () => {
   const [currentColumn, setColumn] = useState(0);
   const [pattern, updatePattern] = useState(initialPattern);
   const [bpm, setBpm] = useState(120);
   const [distortion, setDistortion] = useState(false);
+  const [pingPongDelay, setPingPongDelay] = useState(false);
 
   useEffect(
     () => {
@@ -49,6 +51,7 @@ const StepSequencer = () => {
             // if column is active
             if (row[col]) {
               // play note from row
+              console.log(notes);
               synth.triggerAttackRelease(notes[noteIndex], "8n", time);
             }
           })
@@ -88,6 +91,16 @@ const StepSequencer = () => {
     }
   }
 
+  // ping pong delay on / off
+  function handlePingPongDelay() {
+    setPingPongDelay(!pingPongDelay);
+    if(!pingPongDelay){
+      synth.connect(pingPongDelayEffect);
+    } else {
+      synth.disconnect(pingPongDelayEffect);
+    }
+  }
+
   // update pattern
   function setPattern({ x, y, value }) {
     // copy pattern and invert the value
@@ -117,6 +130,7 @@ const StepSequencer = () => {
         <button onClick={() => play()}>Play</button>
         <button onClick={() => stop()}>Stop</button>
         <label for='distortion-check-box'><input type="checkbox" checked={distortion} onChange={handleDistorion}></input>Distortion</label>
+        <label for='pingpong-delay-check-box'><input type="checkbox" checked={pingPongDelay} onChange={handlePingPongDelay}></input>Ping Pong Delay</label>
       </div>
       <div id="step-sequencer">
         {pattern.map((row, y) => (
