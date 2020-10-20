@@ -6,13 +6,18 @@ import ThemeSelect from './ThemeSelect';
 
 const notes = [
   "C2",
+  "C#2",
   "D2",
+  "D#2",
   "E2",
   "F2",
+  "F#2",
   "G2",
+  "G#2",
   "A2",
+  "A#2",
   "B2",
-  "C3"
+  "C2"
 ];
 
 const initialPattern = [
@@ -23,7 +28,79 @@ const initialPattern = [
   [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
   [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
   [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+  [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
   [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+];
+
+const octaves = [
+  {
+    label: "-4",
+    value: "-4"
+  },
+  {
+    label: "-3",
+    value: "-3"
+  },
+  {
+    label: "-2",
+    value: "-2"
+  },
+  {
+    label: "-1",
+    value: "-1"
+  },
+  {
+    label: "0",
+    value: "0"
+  },
+  {
+    label: "1",
+    value: "1"
+  },
+  {
+    label: "2",
+    value: "2"
+  },
+  {
+    label: "3",
+    value: "3"
+  },
+  {
+    label: "4",
+    value: "4"
+  },
+  {
+    label: "5",
+    value: "5"
+  },
+  {
+    label: "6",
+    value: "6"
+  },
+  {
+    label: "7",
+    value: "7"
+  },
+  {
+    label: "8",
+    value: "8"
+  },
+  {
+    label: "9",
+    value: "9"
+  },
+  {
+    label: "10",
+    value: "10"
+  },
+  {
+    label: "11",
+    value: "11"
+  },
 ];
 
 // create new synth instrument
@@ -38,6 +115,7 @@ const StepSequencer = () => {
   const [bpm, setBpm] = useState(120);
   const [distortion, setDistortion] = useState(false);
   const [pingPongDelay, setPingPongDelay] = useState(false);
+  const [octave, setOctave] = useState("0");
 
   useEffect(
     () => {
@@ -51,7 +129,6 @@ const StepSequencer = () => {
             // if column is active
             if (row[col]) {
               // play note from row
-              console.log(notes);
               synth.triggerAttackRelease(notes[noteIndex], "8n", time);
             }
           })
@@ -73,7 +150,6 @@ const StepSequencer = () => {
 
   // play / stop functions
   const play = useCallback(() => {
-    console.log('play');
     Tone.Transport.toggle();
   }, []);
 
@@ -98,6 +174,41 @@ const StepSequencer = () => {
       synth.connect(pingPongDelayEffect);
     } else {
       synth.disconnect(pingPongDelayEffect);
+    }
+  }
+
+  function OctaveDropDown() {
+    const [octaveOptions] = React.useState(octaves);
+    return (
+      <>
+        <label><strong>Octave:</strong></label>
+        <select value={octave} onChange={handleOctaveInput}>
+          {octaveOptions.map(({ label, value }) => (
+            <option
+              key={value}
+              value={value}
+            >
+              {label}
+            </option>
+          ))}
+        </select>
+      </>
+    );
+  }
+
+  function handleOctaveInput(e){
+    let value = e.currentTarget.value;
+    let negative;
+    setOctave(value);
+    for(let i=0; i<notes.length; i++){
+      // need 2 remove 2 chars if number is negative
+      let note = notes[i];
+      if(note.includes("-")) { negative = true }
+      if(negative) {
+        notes[i] = note.substring(0, note.length - 2) + value;
+      } else {
+        notes[i] = note.substring(0, note.length - 1) + value;
+      }
     }
   }
 
@@ -127,15 +238,16 @@ const StepSequencer = () => {
         >
           <strong>BPM:</strong>
         </InputWithLabel>
+        <OctaveDropDown/>
         <button onClick={() => play()}>Play</button>
         <button onClick={() => stop()}>Stop</button>
-        <label for='distortion-check-box'><input type="checkbox" checked={distortion} onChange={handleDistorion}></input>Distortion</label>
-        <label for='pingpong-delay-check-box'><input type="checkbox" checked={pingPongDelay} onChange={handlePingPongDelay}></input>Ping Pong Delay</label>
+        <label htmlFor='distortion-check-box'><input type="checkbox" checked={distortion} onChange={handleDistorion}></input>Distortion</label>
+        <label htmlFor='pingpong-delay-check-box'><input type="checkbox" checked={pingPongDelay} onChange={handlePingPongDelay}></input>Ping Pong Delay</label>
       </div>
       <div id="step-sequencer">
         {pattern.map((row, y) => (
           <>
-          <label class="row-label">{notes[y]}</label>
+          <label className="row-label">{notes[y]}</label>
           <div key={y} style={{ display: "flex", justifyContent: "center" }}>
             {row.map((value, x) => (
               <StepSequencerSquare

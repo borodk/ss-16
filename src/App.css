@@ -85,33 +85,33 @@ html .light {
 @keyframes glow {
   0% {
   /*border-color: #393;*/
-  border-color:lightpink;
-  box-shadow: 0 01 px rgba(200,0,0,.2), inset 0 0 5px rgba(200,0,0,.1), 0 1px 0 #000;
+  border-color:#a6f961;
+  /*box-shadow: 0 01 px rgba(200,0,0,.2), inset 0 0 5px rgba(200,0,0,.1), 0 1px 0 #000;*/
   }	
   100% {
-    border-color:lightcoral;
+    border-color:#f2f961;
   /*border-color: #6f6;*/
-  box-shadow: 0 0 5px rgba(200,0,0,.6), inset 0 0 5px rgba(200,0,0,.4), 0 1px 0 #000;
+  /*box-shadow: 0 0 5px rgba(200,0,0,.6), inset 0 0 5px rgba(200,0,0,.4), 0 1px 0 #000;*/
   }
 }
 
 /* dark mode */
 
 html .dark {
-  background-color: black;
-  color: whitesmoke;
+  background-color: #0b0b0f;
+  color: #a6fa62;
 }
 
 .dark .square {
-  background-color: lightgoldenrodyellow;
+  background-color: #21212c;
 }
 
 .dark .square.filled {
-  background-color: orangered;
+  background-color: #ffffff;
 }
 
 .dark .square.filled.active {
-  background-color: goldenrod;
+  background-color: #61f969;
 }
 
 .dark #controls button {
